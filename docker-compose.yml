@@ -1,0 +1,22 @@
+services:
+  example-pytorch:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: example-pytorch
+    ports:
+      - "8888:8888"           # http://localhost:8888
+    volumes:
+      - ./:/example-pytorch
+    gpus: all                 # NVIDIA GPU を使う（NVIDIA Container Toolkit 必須）　
+    shm_size: "8gb"           # 大きめの共有メモリ（DataLoaderなどで有効）
+    environment:
+      - TZ=Asia/Tokyo
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    # Dockerfile の CMD をそのまま使う想定（無認証起動）
+    # もし compose 側で上書きしたい場合は下記を有効化:
+    # command: ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--LabApp.token=''"]
