@@ -8,11 +8,27 @@ GPUがない環境の場合、使用するDockerイメージなどを修正す�
 
 ### コンテナ起動コマンド
 
-```bash
-docker compose up -d --build
-```
+- GPUを使用する場合
+
+    ```bash
+    cd docker/gpu
+    docker compose up -d
+    ```
+
+- GPUを使用しない場合
+
+    ```bash
+    cd docker/no_gpu
+    docker compose up -d
+    ```
 
 コンテナ起動後、`http://localhost:8888`にアクセスするとJupyterLabが表示される。
+
+なお、コンテナを修了させる場合は `docker-compose.yml` が存在するフォルダに移動し、下記のコマンドを実施すれば良い。
+
+```bash
+docker compose down
+```
 
 ## ノートブックに関して
 
@@ -47,49 +63,3 @@ T.B.D
 ### example08_pytorch_param_optimization.ipynb
 
 T.B.D
-
-## Appendix
-
-### CPUで動かす場合
-
-GPUを使用せず、CPUのみで動作させる場合は、以下3点の修正を行う必要がある。
-
-- Dockerimage
-
-    1. 使用イメージ変更
-        ```Dockerfile
-        ## 【GPUを使用する場合】
-        FROM nvidia/cuda:12.9.1-base-ubuntu24.04
-
-        ## 【CPUを使用する場合】
-        FROM ubuntu:24.04
-        ```
-    2. PyTorchパッケージの変更
-        ```Dockerfile
-        ## 【GPUを使用する場合】
-        # PyTorchインストール
-        RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu129
-
-        ## 【CPUを使用する場合】
-        # PyTorchインストール
-        RUN pip install torch torchvision torchaudio
-        ```
-
-- docker-compose.yml
-
-    1. gpusのパラメータ変更
-
-        ```yaml
-        ## 【GPUを使用する場合】
-        volumes:
-            - ./:/example-pytorch
-        gpus: all                 # NVIDIA GPU を使う（NVIDIA Container Toolkit 必須）　
-        shm_size: "8gb"           # 大きめの共有メモリ（DataLoaderなどで有効）
-        
-
-        ## 【CPUを使用する場合】
-        # CPUの場合は、gpusの設定を削除する
-        volumes:
-            - ./:/example-pytorch
-        shm_size: "8gb"           # 大きめの共有メモリ（DataLoaderなどで有効）
-        ```
