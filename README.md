@@ -39,7 +39,7 @@ GPUがない環境の場合、使用するDockerイメージなどを修正す�
     mlflow.set_tracking_uri(os.getenv(MLFLOW_TRACKING_URI))
     ```
 
-- **example-pytorch-tensorboard**
+- **example-pytorch-tensorboard**  
     TensorBorad を表示するために用意したコンテナ。  
     `http://localhost:6006` からアクセスできる。  
     `/example-pytorch/logs` に格納されたログデータをTensorBoard上で表示する。
