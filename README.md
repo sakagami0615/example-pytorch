@@ -30,7 +30,7 @@ GPUがない環境の場合、使用するDockerイメージなどを修正す�
 
     TensorBoard で表示したいログに関しては、 [torch.utils.tensorboard](https://docs.pytorch.org/docs/stable/tensorboard.html) のAPIを用いて `/example-pytorch/logs` にログデータを格納する。
 
-    MLflowにArtifactを登録したい場合は、pythonスクリプトで以下のコードでURL設定したのち、 [MLflowのAPI](https://mlflow.org/docs/latest/api_reference/python_api/index.html) をつかって実施することができる。　
+    MLflow へのArtifact登録に関しては、pythonスクリプトで以下のコードでURL設定したのち、 [MLflowのAPI](https://mlflow.org/docs/latest/api_reference/python_api/index.html) を使って実施することができる。　
     
     ```python
     import mlflow, os
@@ -40,7 +40,7 @@ GPUがない環境の場合、使用するDockerイメージなどを修正す�
     ```
 
 - **example-pytorch-tensorboard**
-    TensorBorad を表示するために用意したコンテナ。　　
+    TensorBorad を表示するために用意したコンテナ。  
     `http://localhost:6006` からアクセスできる。  
     `/example-pytorch/logs` に格納されたログデータをTensorBoard上で表示する。
 
