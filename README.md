@@ -11,18 +11,45 @@ GPUがない環境の場合、使用するDockerイメージなどを修正す�
 - GPUを使用する場合
 
     ```bash
-    cd docker/gpu
+    cd docker/compose/example-pytorch-gpu
     docker compose up -d
     ```
 
 - GPUを使用しない場合
 
     ```bash
-    cd docker/no_gpu
+    cd docker/compose/example-pytorch-cpu
     docker compose up -d
     ```
 
-コンテナ起動後、`http://localhost:8888`にアクセスするとJupyterLabが表示される。
+起動ずるコンテナは下記の通り。
+
+- **example-pytorch-[ gpu | cpu ]**  
+    PyTorchを使用してML開発を行うためのコンテナ。  
+    JupyterLab には `http://localhost:8888` からアクセスできる。  
+
+    TensorBoard で表示したいログに関しては、 [torch.utils.tensorboard](https://docs.pytorch.org/docs/stable/tensorboard.html) のAPIを用いて `/example-pytorch/logs` にログデータを格納する。
+
+    MLflowにArtifactを登録したい場合は、pythonスクリプトで以下のコードでURL設定したのち、 [MLflowのAPI](https://mlflow.org/docs/latest/api_reference/python_api/index.html) をつかって実施することができる。　
+    
+    ```python
+    import mlflow, os
+
+    # MLFLOW_TRACKING_URI: http://mlflow:5000
+    mlflow.set_tracking_uri(os.getenv(MLFLOW_TRACKING_URI))
+    ```
+
+- **example-pytorch-tensorboard**
+    TensorBorad を表示するために用意したコンテナ。　　
+    `http://localhost:6006` からアクセスできる。  
+    `/example-pytorch/logs` に格納されたログデータをTensorBoard上で表示する。
+
+- **example-pytorch-mlflow**  
+    MLflow を使用するために用意したコンテナ。  
+    `http://localhost:5000` からアクセスできる。  
+
+
+### コンテナ終了コマンド
 
 なお、コンテナを修了させる場合は `docker-compose.yml` が存在するフォルダに移動し、下記のコマンドを実施すれば良い。
 

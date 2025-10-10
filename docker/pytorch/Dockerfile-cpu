@@ -22,11 +22,9 @@ RUN pip install torch torchvision torchaudio
 RUN pip install torchinfo lightning
 
 # その他パッケージのインストール
-RUN pip install optuna pandas scikit-learn seaborn matplotlib
+RUN pip install optuna pandas scikit-learn seaborn matplotlib tensorboard mlflow
 RUN pip install tqdm ipywidgets jupyterlab jupyterlab-widgets
 
 WORKDIR /example-pytorch
 
-# JupyterLabを使用 (使用しない場合は /bin/bash のほうに置き替える)
-#CMD ["/bin/bash"]
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--LabApp.token=''"]
+CMD ["/bin/bash"]

@@ -210,4 +210,5 @@ __marimo__/
 .Trash-0/
 .DS_Store
 cache/
-lightning_logs/
+logs/
+mlflow/

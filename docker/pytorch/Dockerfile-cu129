@@ -22,7 +22,7 @@ RUN pip install torch torchvision torchaudio --index-url https://download.pytorc
 RUN pip install torchinfo lightning
 
 # その他パッケージのインストール
-RUN pip install optuna pandas scikit-learn seaborn matplotlib
+RUN pip install optuna pandas scikit-learn seaborn matplotlib tensorboard mlflow
 RUN pip install tqdm ipywidgets jupyterlab jupyterlab-widgets
 
 WORKDIR /example-pytorch
