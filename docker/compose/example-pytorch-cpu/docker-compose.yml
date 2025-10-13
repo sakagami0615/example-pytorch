@@ -32,7 +32,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ../../../mlflow/mlruns:/mlruns
+      - ../../../mlflow-artifacts/mlruns:/mlruns
     environment:
       - TZ=Asia/Tokyo
     restart: unless-stopped

@@ -19,7 +19,7 @@ RUN pip install --upgrade pip
 
 # PyTorchインストール
 RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu129
-RUN pip install torchinfo lightning
+RUN pip install torcheval torchinfo lightning
 
 # その他パッケージのインストール
 RUN pip install optuna pandas scikit-learn seaborn matplotlib tensorboard mlflow
