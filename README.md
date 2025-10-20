@@ -1,25 +1,38 @@
 # example-pytorch
 
+## 構成図
+
+![structure-diagram](./images/enviroment.drawio.svg)
+
+- dockerフォルダ  
+    Dockerimageやdocker-compose.ymlなどの資材を格納
+- projectフォルダ  
+    実装したソースやノートブックを格納。(サンプルのノートブックを格納している)
+- logsフォルダ  
+    tensorboardで表示するためのログを格納
+- mlflow-artifacts/mlrunsフォルダ  
+    mlflowで表示するデータを格納
+
 ## 環境準備
 
 環境としては、Dockerを使用する。  
 なおGPUが使用できる環境を想定して`Dockerfile`と`docker-compose.yml`を用意している。  
-GPUがない環境の場合、使用するDockerイメージなどを修正する必要がある(変更内容はAppendixに記載)。
+( docker-compose.yml はGPU版とCPU版で用意している )
 
 ### コンテナ起動コマンド
 
 - GPUを使用する場合
 
     ```bash
-    cd docker/compose/example-pytorch-gpu
-    docker compose up -d
+    cd docker
+    docker compose -f docker-compose.cu129.yml up -d
     ```
 
 - GPUを使用しない場合
 
     ```bash
-    cd docker/compose/example-pytorch-cpu
-    docker compose up -d
+    cd docker
+    docker compose -f docker-compose.cpu.yml up -d
     ```
 
 起動ずるコンテナは下記の通り。
@@ -28,7 +41,7 @@ GPUがない環境の場合、使用するDockerイメージなどを修正す�
     PyTorchを使用してML開発を行うためのコンテナ。  
     JupyterLab には `http://localhost:8888` からアクセスできる。  
 
-    TensorBoard で表示したいログに関しては、 [torch.utils.tensorboard](https://docs.pytorch.org/docs/stable/tensorboard.html) のAPIを用いて `/example-pytorch/logs` にログデータを格納する。
+    TensorBoard で表示したいログに関しては、 [torch.utils.tensorboard](https://docs.pytorch.org/docs/stable/tensorboard.html) のAPIを用いて `/logs` にログデータを格納する。
 
     MLflow へのArtifact登録に関しては、pythonスクリプトで以下のコードでURL設定したのち、 [MLflowのAPI](https://mlflow.org/docs/latest/api_reference/python_api/index.html) を使って実施することができる。　
     
@@ -42,7 +55,7 @@ GPUがない環境の場合、使用するDockerイメージなどを修正す�
 - **example-pytorch-tensorboard**  
     TensorBorad を表示するために用意したコンテナ。  
     `http://localhost:6006` からアクセスできる。  
-    `/example-pytorch/logs` に格納されたログデータをTensorBoard上で表示する。
+    `/logs` に格納されたログデータをTensorBoard上で表示する。
 
 - **example-pytorch-mlflow**  
     MLflow を使用するために用意したコンテナ。  
@@ -57,7 +70,7 @@ GPUがない環境の場合、使用するDockerイメージなどを修正す�
 docker compose down
 ```
 
-## ノートブックに関して
+## サンプルのノートブックに関して
 
 ### example01_pytorch_common.ipynb
 

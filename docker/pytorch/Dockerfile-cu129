@@ -25,6 +25,6 @@ RUN pip install torcheval torchinfo lightning
 COPY common_requirements.txt ./tmp/
 RUN pip install -r ./tmp/common_requirements.txt
 
-WORKDIR /example-pytorch
+WORKDIR /project
 
 CMD ["/bin/bash"]

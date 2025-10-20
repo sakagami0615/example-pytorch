@@ -1,5 +1,5 @@
 services:
-  example-pytorch:
+  project:
     build:
       context: .
       dockerfile: ./pytorch/Dockerfile-cu129
@@ -9,7 +9,8 @@ services:
     ports:
       - "${JUPYTER_PORT}:8888"
     volumes:
-      - ../:/example-pytorch
+      - ../project:/project
+      - ../logs:/logs
       - ../mlflow-artifacts/mlruns:/mlruns
     shm_size: ${PYTORCH_CONTAINER_SHM_SIZE}
     gpus: all
@@ -18,6 +19,7 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - PYTHONUNBUFFERED=1
       - MLFLOW_TRACKING_URI=http://mlflow:${MLFLOW_PORT}
+      - TENSORBOARD_LOGDIR=/logs
     restart: unless-stopped
     tty: true
     stdin_open: true
