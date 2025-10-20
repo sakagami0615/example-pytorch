@@ -1,0 +1,11 @@
+optuna
+pandas
+scikit-learn
+seaborn
+matplotlib
+tensorboard
+mlflow
+tqdm
+ipywidgets
+jupyterlab
+jupyterlab-widgets

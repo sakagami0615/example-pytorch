@@ -1,0 +1,63 @@
+services:
+  example-pytorch:
+    build:
+      context: .
+      dockerfile: ./pytorch/Dockerfile-cu129
+    image: example-pytorch:latest
+    pull_policy: never
+    container_name: example-pytorch
+    ports:
+      - "${JUPYTER_PORT}:8888"
+    volumes:
+      - ../:/example-pytorch
+      - ../mlflow-artifacts/mlruns:/mlruns
+    shm_size: ${PYTORCH_CONTAINER_SHM_SIZE}
+    gpus: all
+    environment:
+      - TZ=Asia/Tokyo
+      - NVIDIA_VISIBLE_DEVICES=all
+      - PYTHONUNBUFFERED=1
+      - MLFLOW_TRACKING_URI=http://mlflow:${MLFLOW_PORT}
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    command: >
+      jupyter lab --ip=0.0.0.0
+                  --allow-root
+                  --LabApp.token=''
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: ./mlflow/Dockerfile
+    image: example-mlflow:latest
+    pull_policy: never
+    container_name: example-pytorch-mlflow
+    ports:
+      - "${MLFLOW_PORT}:5000"
+    volumes:
+      - ../mlflow-artifacts/mlruns:/mlruns
+    environment:
+      - TZ=Asia/Tokyo
+    restart: unless-stopped
+    tty: true
+    command: >
+      mlflow server --host 0.0.0.0
+                    --port ${MLFLOW_PORT}
+                    --backend-store-uri sqlite:////mlruns/mlflow.db
+                    --default-artifact-root file:///mlruns/artifacts
+
+  tensorboard:
+    image: tensorflow/tensorflow:latest
+    container_name: example-pytorch-tensorboard
+    ports:
+      - "${TENSORBOARD_PORT}:6006"
+    volumes:
+      - ../logs:/logs
+    environment:
+      - TZ=Asia/Tokyo
+    restart: unless-stopped
+    command: >
+      tensorboard --logdir=/logs
+                  --host=0.0.0.0
+                  --port=${TENSORBOARD_PORT}
