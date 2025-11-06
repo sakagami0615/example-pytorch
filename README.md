@@ -25,17 +25,17 @@
 
     ```bash
     cd docker
-    docker compose -f docker-compose.cu129.yml up -d
+    docker compose -f docker-compose.common.yml -f docker-compose.cu129.yml up -d
     ```
 
 - GPUを使用しない場合
 
     ```bash
     cd docker
-    docker compose -f docker-compose.cpu.yml up -d
+    docker compose -f docker-compose.common.yml -f docker-compose.cpu.yml up -d
     ```
 
-起動ずるコンテナは下記の通り。
+起動するコンテナは下記の通り。
 
 - **example-pytorch-[ gpu | cpu ]**  
     PyTorchを使用してML開発を行うためのコンテナ。  
@@ -44,7 +44,7 @@
     TensorBoard で表示したいログに関しては、 [torch.utils.tensorboard](https://docs.pytorch.org/docs/stable/tensorboard.html) のAPIを用いて `/logs` にログデータを格納する。
 
     MLflow へのArtifact登録に関しては、pythonスクリプトで以下のコードでURL設定したのち、 [MLflowのAPI](https://mlflow.org/docs/latest/api_reference/python_api/index.html) を使って実施することができる。　
-    
+
     ```python
     import mlflow, os
 
@@ -67,39 +67,51 @@
 なお、コンテナを修了させる場合は `docker-compose.yml` が存在するフォルダに移動し、下記のコマンドを実施すれば良い。
 
 ```bash
-docker compose down
+# GPU使用時のコンテナ終了コマンド
+docker compose -f docker-compose.common.yml -f docker-compose.cu129.yml down
+
+# GPU未使用時のコンテナ終了コマンド
+docker compose -f docker-compose.common.yml -f docker-compose.cu129.yml down
 ```
 
 ## サンプルのノートブックに関して
 
-### example01_pytorch_common.ipynb
+### example01
 
-T.B.D
+- pytorch_common.ipynb: T.B.D
+- simple_deep_learning.ipynb: T.B.D
 
-### example02_pytorch_dataloader.ipynb
+### example02
 
-T.B.D
+- pytorch_autograd.ipynb: T.B.D
+- pytorch_dataloader.ipynb: T.B.D
 
-### example03_pytorch_data_augmentation.ipynb
+### example03
 
-T.B.D
+- data_augmentation.ipynb: T.B.D
 
-### example04_pytorch_cnn.ipynb
+### example04
 
-T.B.D
+- simple_cnn_with_mlflow.ipynb: T.B.D
 
-### example05_pytorch_rnn.ipynb
+### example05
 
-T.B.D
+- simple_rnn.ipynb: T.B.D
+- simple_lstm.ipynb: T.B.D
+- simple_gru.ipynb: T.B.D
 
-### example06_pytorch_image_gen_by_rnn.ipynb
+### example06
 
-T.B.D
+- simple_rnn_image_generation.ipynb: T.B.D
 
-### example07_pytorch_fine-tuning.ipynb
+### example07
 
-T.B.D
+- vgg_fine-tuning.ipynb: T.B.D
 
-### example08_pytorch_param_optimization.ipynb
+### example08
 
-T.B.D
+- pytorch_param_optimization.ipynb: T.B.D
+
+### example09
+
+- example09_pytorch-lightning.ipynb: T.B.D
